@@ -20,6 +20,7 @@ std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file
     if (inFile.is_open()) {
         std::string line;
         while (std::getline(inFile, line)) {
+            if (!line.empty() && line.back() == '\r') line.pop_back();
             if (line.empty()) continue;
 
             // format: uid|lastName,firstName|dd-mm-yyyy|diagnosis|BT,BP,HR,RR;...
