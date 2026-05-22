@@ -13,6 +13,10 @@
 #include "GPNotificationSystemFacade.h"
 #include "HospitalAlertSystemFacade.h"
 
+#include "CordycepsAlertStrategy.h"
+#include "KepralsSyndromeAlertStrategy.h"
+#include "AndromedaStrainAlertStrategy.h"
+
 using namespace std;
 
 
@@ -44,7 +48,12 @@ void PatientManagementSystem::init()
 	}
 
 	for (Patient* p : _patients) {
-		// TODO: do any processing you need here
+		if (p->primaryDiagnosis() == Diagnosis::CORDYCEPS_BRAIN_INFECTION)
+			p->setAlertStrategy(new CordycepsAlertStrategy());
+		else if (p->primaryDiagnosis() == Diagnosis::KEPRALS_SYNDROME)
+			p->setAlertStrategy(new KepralsSyndromeAlertStrategy());
+		else if (p->primaryDiagnosis() == Diagnosis::ANDROMEDA_STRAIN)
+			p->setAlertStrategy(new AndromedaStrainAlertStrategy());
 	}
 }
 
@@ -105,7 +114,10 @@ void PatientManagementSystem::addVitalsRecord()
 		cin >> respitoryRate;
 
 		Vitals* v = new Vitals(bodyTemperature, bloodPressure, heartRate, respitoryRate);
-		_patientLookup[pid]->addVitals(v);
+		Patient* p = _patientLookup[pid];
+		p->addVitals(v);
+		if (p->alertStrategy())
+			p->setAlertLevel(p->alertStrategy()->calculate(*p, *v));
 	}
 	else {
 		cout << "Patient not found" << endl;

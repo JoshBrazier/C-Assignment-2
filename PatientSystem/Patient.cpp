@@ -77,6 +77,11 @@ const std::vector<const Vitals*> Patient::vitals() const
 	return _vitals;
 }
 
+void Patient::setAlertStrategy(AbstractAlertStrategy* strategy)
+{
+	_alertStrategy.reset(strategy);
+}
+
 void Patient::setAlertLevel(AlertLevel level)
 {
 	_alertLevel = level;
