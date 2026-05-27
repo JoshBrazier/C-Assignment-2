@@ -91,9 +91,6 @@ void Patient::setAlertLevel(AlertLevel level)
 {
 	_alertLevel = level;
 
-	for (auto* observer : _observers)
-		observer->onAlertLevelChanged(this);
-
 	if (_alertLevel > AlertLevel::Green) {
 		cout << "Patient: " << humanReadableID() << "has an alert level: ";
 		switch (_alertLevel) {
@@ -109,4 +106,7 @@ void Patient::setAlertLevel(AlertLevel level)
 		}
 		cout << endl;
 	}
+
+	for (auto* observer : _observers)
+		observer->onAlertLevelChanged(this);
 }
