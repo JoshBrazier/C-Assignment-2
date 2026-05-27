@@ -9,6 +9,11 @@ GPNotificationSystemFacade::GPNotificationSystemFacade()
 GPNotificationSystemFacade::~GPNotificationSystemFacade()
 { }
 
+void GPNotificationSystemFacade::onAlertLevelChanged(Patient* p)
+{
+	sendGPNotificationForPatient(p);
+}
+
 void GPNotificationSystemFacade::sendGPNotificationForPatient(Patient* p)
 {
 	if (p->alertLevel() > AlertLevel::Orange) {

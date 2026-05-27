@@ -9,6 +9,11 @@ HospitalAlertSystemFacade::HospitalAlertSystemFacade()
 HospitalAlertSystemFacade::~HospitalAlertSystemFacade()
 { }
 
+void HospitalAlertSystemFacade::onAlertLevelChanged(Patient* p)
+{
+	sendAlertForPatient(p);
+}
+
 void HospitalAlertSystemFacade::sendAlertForPatient(Patient* p)
 {
 	if (p->alertLevel() == AlertLevel::Red) {

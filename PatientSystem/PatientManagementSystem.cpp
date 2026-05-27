@@ -54,6 +54,9 @@ void PatientManagementSystem::init()
 			p->setAlertStrategy(new KepralsSyndromeAlertStrategy());
 		else if (p->primaryDiagnosis() == Diagnosis::ANDROMEDA_STRAIN)
 			p->setAlertStrategy(new AndromedaStrainAlertStrategy());
+
+		p->addObserver(_hospitalAlertSystem.get());
+		p->addObserver(_gpNotificationSystem.get());
 	}
 }
 

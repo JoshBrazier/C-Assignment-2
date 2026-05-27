@@ -77,6 +77,11 @@ const std::vector<const Vitals*> Patient::vitals() const
 	return _vitals;
 }
 
+void Patient::addObserver(AbstractPatientObserver* observer)
+{
+	_observers.push_back(observer);
+}
+
 void Patient::setAlertStrategy(AbstractAlertStrategy* strategy)
 {
 	_alertStrategy.reset(strategy);
@@ -85,6 +90,9 @@ void Patient::setAlertStrategy(AbstractAlertStrategy* strategy)
 void Patient::setAlertLevel(AlertLevel level)
 {
 	_alertLevel = level;
+
+	for (auto* observer : _observers)
+		observer->onAlertLevelChanged(this);
 
 	if (_alertLevel > AlertLevel::Green) {
 		cout << "Patient: " << humanReadableID() << "has an alert level: ";

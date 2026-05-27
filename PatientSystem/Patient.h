@@ -6,6 +6,7 @@
 
 #include "PatientAlertLevels.h"
 #include "AbstractAlertStrategy.h"
+#include "AbstractPatientObserver.h"
 
 
 // forward declare classes
@@ -51,11 +52,14 @@ public:
 	void setAlertStrategy(AbstractAlertStrategy* strategy);
 	AbstractAlertStrategy* alertStrategy() const { return _alertStrategy.get(); }
 
+	void addObserver(AbstractPatientObserver* observer);
+
 protected:
 	std::vector<std::string> _diagnosis;
 	std::vector<const Vitals*> _vitals;
 	AlertLevel _alertLevel;
 	std::unique_ptr<AbstractAlertStrategy> _alertStrategy;
+	std::vector<AbstractPatientObserver*> _observers;
 
 	friend std::ostream& operator<<(std::ostream& os, const Patient& p);
 };
